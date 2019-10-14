@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-import { SelectorDefinitionProvider } from './providers/selector-definition-provider';
+import { GetFileProvider } from './providers/selector-definition-provider';
 
 export function activate(context: vscode.ExtensionContext) {
 
@@ -9,10 +9,9 @@ export function activate(context: vscode.ExtensionContext) {
 		  pattern: '**/*.html',
 		  scheme: 'file',
 		},
-		new SelectorDefinitionProvider(),
+		new GetFileProvider(),
 	);
 
-	console.log('Congratulations, your extension "goToHtml" is now active!');
 	context.subscriptions.push(
 		selectorRegistration,
 	);

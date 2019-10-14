@@ -1,67 +1,62 @@
 import * as vscode from 'vscode';
-import { TextDocument, Uri, Position, Location, ProviderResult } from 'vscode';
+import { Location, Position, ProviderResult, TextDocument, Uri } from 'vscode';
 
-export class SelectorDefinitionProvider implements vscode.DefinitionProvider {
+export class GetFileProvider implements vscode.DefinitionProvider {
 
   /*
-   * TODO:
-   * Check if clickedTag has the prefix before it '{{>clickedTag', 
-   * now if '{{>clickedTag' and 'clickedTag' without the prefix are on the same line
-   * both words redirect to the file
+   * Optimazation + Features:
    * 
+   * - Better regex validation, so we dont have to remove the whitespace.
+   * - Optimise for dynamic reggex patterns, click targets and files.
+   * - Optimise for dynamic position when getting redirected to the file.
+   * - Add hover message for clarification (it's now a small box).
   */
   provideDefinition(document: TextDocument, position: Position): ProviderResult<Location> {
-    const wordRange = document.getWordRangeAtPosition(position);
-    const clickedTag = document.getText(wordRange);
-    const activeEditor = vscode.window.activeTextEditor;
-
     const config = {
       source: '{**/*.html}',
+      ignoreSource: 'node_modules/*',
+      ignoreText: '<!DOCTYPE html>',
       prefix: "{{>",
+      reggex: /{{>(.*?) /,
     };
 
-    if (activeEditor) {
-      const selection = activeEditor.selection;
-      const text = activeEditor.document.lineAt(selection.start.line).text;
-      if(text.includes(config.prefix) === false){
-        return null;
-      }
-    }
+    const wordRange = document.getWordRangeAtPosition(position, config.reggex);
+    const clickedTag = document.getText(wordRange);
 
-    return vscode.workspace.findFiles(config.source, 'node_modules/*')
-      .then(tsFiles => {
-        return tsFiles.map(file => {
+    if(clickedTag.includes(config.ignoreText)) { return null; }
+    
+    const word = clickedTag.replace(/\s/g, "").split(config.prefix);
+
+    return vscode.workspace.findFiles(config.source, config.ignoreSource)
+      .then(files => {
+        return files.map(file => {
           return vscode.workspace.openTextDocument(Uri.file(file.fsPath))
             .then(document => {
-              const tagMatch = file.fsPath.includes(clickedTag);
-              const lineNumber = 0;
-              const colNumber = 0;
+              const tagMatch = file.fsPath.includes(word[1]);
               
               return {
                 path: file.fsPath,
                 match: tagMatch,
-                lineNumber,
-                colNumber,
+                lineNumber: 0,
+                colNumber: 0,
               };
             });
         });
       })
-      .then(mappedTsFiles => {
-        return Promise.all(mappedTsFiles)
-          .then(tsFileObjects => {
-            const matchedTsFileObject = tsFileObjects.find((mo => {
-                return mo.match;
+      .then(files => {
+        return Promise.all(files)
+          .then(fileObjects => {
+            const matched = fileObjects.find((obj => {
+                return obj.match;
             }));
-            return matchedTsFileObject ? matchedTsFileObject : null;
+            return matched ? matched : null;
           });
       })
-      .then(tagDefinitionPath => {
-        if (tagDefinitionPath === null) {
-          // Returning null prevents the tag from being underlined, which makes sense as there's no tag definition match.
+      .then(data => {
+        if (data === null) {
           return null;
         }
-        // Returning a location gives VS Code a hint where to jump to when Ctrl/Cmd + click is invoked on the tag.
-        return new Location(Uri.file(tagDefinitionPath.path), new Position(tagDefinitionPath.lineNumber, tagDefinitionPath.colNumber));
+        return new Location(Uri.file(data.path), new Position(data.lineNumber, data.colNumber));
       });
   }
 }
