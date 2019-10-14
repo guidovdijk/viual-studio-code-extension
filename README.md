@@ -1,6 +1,6 @@
-# goToHtml README
+# handle-bars-redirecter README
 
-This is the README for your extension "goToHtml". After writing up a brief description, we recommend including the following sections.
+This is the README for your extension "handle-bars-redirecter". After writing up a brief description, we recommend including the following sections.
 
 ## Features
 
