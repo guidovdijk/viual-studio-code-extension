@@ -1,8 +1,8 @@
 {
-	"name": "goToHtml",
-	"displayName": "go-to-html",
-	"description": "",
-	"version": "0.0.1",
+	"name": "handle-bars-redirecter",
+	"displayName": "handle-bars-redirecter",
+	"description": "handle-bars-redirecter is an extention that lets you click on the imported html file statements and automatically get redirected to that specific file.",
+	"version": "1.0.1",
 	"engines": {
 		"vscode": "^1.39.0"
 	},
