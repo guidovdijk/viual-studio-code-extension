@@ -14,7 +14,7 @@ export class GetFileProvider implements vscode.DefinitionProvider {
   provideDefinition(document: TextDocument, position: Position): ProviderResult<Location> {
     const config = {
       source: '{**/*.html}',
-      ignoreSource: 'node_modules/*',
+      ignoreSource: '{node_modules/*, dist/*, prod/*, code/*}',
       ignoreText: '<!DOCTYPE html>',
       prefix: "{{>",
       reggex: /{{>(.*?) /,
