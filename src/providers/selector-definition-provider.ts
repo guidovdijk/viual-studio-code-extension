@@ -9,31 +9,33 @@ export class GetFileProvider implements vscode.DefinitionProvider {
    * - Better regex validation, so we dont have to remove the whitespace.
    * - Optimise for dynamic reggex patterns, click targets and files.
    * - Optimise for dynamic position when getting redirected to the file.
+   * - optimise file search when file is in sub-directory
    * - Add hover message for clarification (it's now a small box).
   */
   provideDefinition(document: TextDocument, position: Position): ProviderResult<Location> {
     const config = {
       source: '{**/*.html}',
       ignoreSource: '{node_modules/*, dist/*, prod/*, code/*}',
-      ignoreText: '<!DOCTYPE html>',
-      prefix: "{{>",
-      reggex: /{{>(.*?) /,
+      ignoreText: 'layout: page',
+      prefix: "\\",
+      reggex: /(?<={{>[ \s]|{{#embed \')(.*?)((?=[^\w\.\-]))/g,
     };
 
     const wordRange = document.getWordRangeAtPosition(position, config.reggex);
     const clickedTag = document.getText(wordRange);
 
+    console.log({wordRange});
     if(clickedTag.includes(config.ignoreText)) { return null; }
     
-    const word = clickedTag.replace(/\s/g, "").split(config.prefix);
-
+    const word = config.prefix + clickedTag.replace(/\./g, config.prefix);
+    // console.log({word, wordRange, clickedTag});
     return vscode.workspace.findFiles(config.source, config.ignoreSource)
       .then(files => {
         return files.map(file => {
           return vscode.workspace.openTextDocument(Uri.file(file.fsPath))
             .then(document => {
-              const tagMatch = file.fsPath.includes(word[1]);
-              
+              const tagMatch = file.fsPath.includes(word);
+              // console.log(tagMatch, file, word);
               return {
                 path: file.fsPath,
                 match: tagMatch,
