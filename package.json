@@ -3,7 +3,7 @@
 	"publisher": "guido",
 	"displayName": "Handlebars redirector",
 	"description": "handlebars-redirector is an extention that lets you click on the imported html file statements (e.g '{{> file }}, {{embed 'file' }}' and automatically get redirected to that specific file.",
-	"version": "2.0.1",
+	"version": "1.0.2",
 	"engines": {
 		"vscode": "^1.39.0"
 	},
