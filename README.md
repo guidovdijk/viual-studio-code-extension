@@ -1,7 +1,5 @@
 # handle-bars-redirecter README
 
-This is the README for your extension "handle-bars-redirecter".
-
 ## Features
 
 Redirect handlebar.js syntax e.g '{{> file }}' in html files to the destination html file
