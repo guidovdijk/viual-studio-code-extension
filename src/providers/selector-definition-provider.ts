@@ -28,7 +28,7 @@ export class GetFileProvider implements vscode.DefinitionProvider {
 
     if(clickedTag.includes(config.ignoreText)) { return null; }
     
-    const path = '\\' + clickedTag.replace(/\./g, '\\');
+    const path = '\\' + clickedTag.replace(/\./g, '\\') + '.html';
 
     console.log({path, wordRange, clickedTag});
     return vscode.workspace.findFiles(config.source, config.ignoreSource)
