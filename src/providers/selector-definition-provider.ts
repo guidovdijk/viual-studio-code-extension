@@ -12,9 +12,6 @@ export class GetFileProvider implements vscode.DefinitionProvider {
    * - optimise file search when file is in sub-directory
    * - Add hover message for clarification (it's now a small box).
   */
-  // constructor(data: string) { 
-  //   super(data); 
-  // }
   provideDefinition(document: TextDocument, position: Position): ProviderResult<Location> {
     const config = {
       source: '{**/*.html}',
@@ -30,14 +27,12 @@ export class GetFileProvider implements vscode.DefinitionProvider {
     
     const path = '\\' + clickedTag.replace(/\./g, '\\') + '.html';
 
-    console.log({path, wordRange, clickedTag});
     return vscode.workspace.findFiles(config.source, config.ignoreSource)
       .then(files => {
         return files.map(file => {
           return vscode.workspace.openTextDocument(Uri.file(file.fsPath))
             .then(document => {
               const tagMatch = file.fsPath.includes(path);
-              // console.log(tagMatch, file, word);
               return {
                 path: file.fsPath,
                 match: tagMatch,
