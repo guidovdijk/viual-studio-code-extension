@@ -1,8 +1,8 @@
 {
-	"name": "handle-bars-redirecter",
-	"publisher": "Guido",
-	"displayName": "handle-bars-redirecter",
-	"description": "handle-bars-redirecter is an extention that lets you click on the imported html file statements and automatically get redirected to that specific file.",
+	"name": "handlebars-redirector",
+	"publisher": "guido",
+	"displayName": "Handlebars redirector",
+	"description": "handlebars-redirector is an extention that lets you click on the imported html file statements (e.g '{{> file }}, {{embed 'file' }}' and automatically get redirected to that specific file.",
 	"version": "1.0.1",
 	"engines": {
 		"vscode": "^1.39.0"

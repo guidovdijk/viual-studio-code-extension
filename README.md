@@ -1,4 +1,4 @@
-# handle-bars-redirecter README
+# Handlebars redirector README
 
 ## Features
 
@@ -18,7 +18,7 @@ Initial release of ...
 
 ### 1.0.1
 
-Fixed issue reggex issue.
+Fixed reggex issue, where reggex returned all the text in the file, if there was a linebreak in the handlebars syntax.
 
 -----------------------------------------------------------------------------------------------------------
 
