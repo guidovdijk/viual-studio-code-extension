@@ -1,4 +1,4 @@
-# handle-bars-redirecter
+# handle-bars-redirecter README
 
 This is the README for your extension "handle-bars-redirecter".
 
@@ -29,5 +29,9 @@ Fixed issue reggex issue.
 **Note:** You can author your README using Visual Studio Code.  Here are some useful editor keyboard shortcuts:
 
 * Fire redirect (`Cmd+Left-Click` on macOS or `Ctrl+Left-Click` on Windows and Linux)
+
+### For more information
+
+* [github user](https://github.com/guidovdijk)
 
 **Enjoy!**
