@@ -18,7 +18,10 @@ Initial release of ...
 
 ### 1.0.1
 
-Fixed reggex issue, where reggex returned all the text in the file, if there was a linebreak in the handlebars syntax.
+Fixed regex issue, where regex returned all the text in the file, if there was a linebreak in the handlebars syntax.
+
+### 1.0.2
+Fixed regex whitespace isseu
 
 -----------------------------------------------------------------------------------------------------------
 

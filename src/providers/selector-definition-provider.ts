@@ -18,7 +18,7 @@ export class GetFileProvider implements vscode.DefinitionProvider {
       source: '{**/*.html}',
       ignoreSource: '{node_modules/*, dist/*, prod/*, code/*}',
       ignoreText: '---',
-      reggex: /(?<={{>\s*|{{#embed \')([^\s\']*)/,
+      reggex: /(?<={{>\s*|{{#embed \')([^\s\'\}]*)/,
     };
 
     const wordRange = document.getWordRangeAtPosition(position, config.reggex);
