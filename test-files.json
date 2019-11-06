@@ -1,0 +1,14 @@
+[
+    {
+        "language": "html",
+        "pattern": "**/*.html",
+        "scheme": "file",
+        "data": {
+            "source": "{**/*.html}",
+            "ignoreSource": "{node_modules/*, dist/*, prod/*, code/*}",
+            "ignoreText": "layout: page",
+            "prefix": "\\",
+            "reggex": "\/(?<={{>\\s*|{{#embed \\')([^\\s\\']*)\/"
+        }
+    }
+]
