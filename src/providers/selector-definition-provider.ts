@@ -1,5 +1,6 @@
 import * as vscode from 'vscode';
 import { Location, Position, ProviderResult, TextDocument, Uri } from 'vscode';
+import * as path from 'path';
 
 export class GetFileProvider implements vscode.DefinitionProvider {
 
@@ -25,14 +26,15 @@ export class GetFileProvider implements vscode.DefinitionProvider {
 
     if(clickedTag.includes(config.ignoreText)) { return null; }
     
-    const path = '\\' + clickedTag.replace(/\./g, '\\') + '.html';
+    const sep = path.sep;
+    const filePath = sep + clickedTag.replace(/\./g, sep) + '.html';
 
     return vscode.workspace.findFiles(config.source, config.ignoreSource)
       .then(files => {
         return files.map(file => {
           return vscode.workspace.openTextDocument(Uri.file(file.fsPath))
             .then(document => {
-              const tagMatch = file.fsPath.includes(path);
+              const tagMatch = file.fsPath.includes(filePath);
               return {
                 path: file.fsPath,
                 match: tagMatch,
