@@ -18,13 +18,13 @@ export class GetFileProvider implements vscode.DefinitionProvider {
       ignoreSource: '{node_modules/*, dist/*, prod/*, code/*}',
       ignoreText: 'layout: page',
       prefix: "\\",
-      reggex: /(?<={{>[ \s]|{{#embed \')(.*?)((?=[^\w\.\-]))/g,
+      reggex: /(?<={{>\s*|{{#embed \')([^\s\']*)/,
     };
 
     const wordRange = document.getWordRangeAtPosition(position, config.reggex);
     const clickedTag = document.getText(wordRange);
 
-    console.log({wordRange});
+    console.log({wordRange, clickedTag});
     if(clickedTag.includes(config.ignoreText)) { return null; }
     
     const word = config.prefix + clickedTag.replace(/\./g, config.prefix);
