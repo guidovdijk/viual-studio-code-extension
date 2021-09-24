@@ -18,13 +18,15 @@ export class GetFileProvider implements vscode.DefinitionProvider {
       source: '{**/*.html}',
       ignoreSource: '{node_modules/*, dist/*, prod/*, code/*}',
       ignoreText: '---',
-      reggex: /(?<={{>\s*|{{#embed \')([^\s\'\}]*)/,
+      reggex: /(?<=({{>|{{#embed) \s*)\w+(?:[.-]\w+)*(?=[\s\S]*?}})/,
     };
 
     const wordRange = document.getWordRangeAtPosition(position, config.reggex);
+
+    if(!wordRange) { return null }
+    
     const clickedTag = document.getText(wordRange);
 
-    if(clickedTag.includes(config.ignoreText)) { return null; }
     
     const sep = path.sep;
     const filePath = sep + clickedTag.replace(/\./g, sep) + '.html';
